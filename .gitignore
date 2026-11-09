@@ -1,0 +1,17 @@
+node_modules/
+.next/
+.env
+.venv/
+__pycache__/
+*.pyc
+data/
+outputs/
+companies/
+companies_previous_*/
+.companies_build_*/
+sources/
+artifacts/
+workbook/node_modules
+next-env.d.ts
+*.tsbuildinfo
+**/.DS_Store

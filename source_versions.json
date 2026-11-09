@@ -1,0 +1,17 @@
+[
+  {
+    "name": "freehire",
+    "repository": "https://github.com/strelov1/freehire",
+    "commit": "adaffe94d445d8bb87fea8916c83cae335168b02"
+  },
+  {
+    "name": "job-board-aggregator",
+    "repository": "https://github.com/Riley-Dorrington/job-board-aggregator",
+    "commit": "f67013814c39d258a1bf28ae53f3697b7db5339d"
+  },
+  {
+    "name": "job-boards",
+    "repository": "https://github.com/mherzog4/job-boards",
+    "commit": "da7885cff552c513319318f2f31ed23f049f426e"
+  }
+]
