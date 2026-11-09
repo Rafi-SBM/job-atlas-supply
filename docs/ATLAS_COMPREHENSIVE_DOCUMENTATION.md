@@ -483,3 +483,4 @@ Job Atlas is designed to operate 100% within free cloud tiers ($0.00 cost):
      * `TURSO_DATABASE_URL`
      * `TURSO_AUTH_TOKEN`
    * Service starts in under 2 minutes with memory footprint < 90MB RAM.
+
