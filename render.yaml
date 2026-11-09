@@ -16,3 +16,4 @@ services:
         sync: false
       - key: TURSO_AUTH_TOKEN
         sync: false
+

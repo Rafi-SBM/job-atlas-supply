@@ -16,3 +16,4 @@ export function GET() {
     platforms: meta.platforms
   });
 }
+
