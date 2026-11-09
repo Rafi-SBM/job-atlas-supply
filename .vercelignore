@@ -1,9 +1,9 @@
 # Ignore heavy backend data, databases, and scrapers
-data/
-outputs/
-companies/
-sources/
-.venv/
+/data/
+/outputs/
+/companies/
+/sources/
+/.venv/
 scraper/
 scripts/
 tests/
