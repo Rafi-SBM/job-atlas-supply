@@ -11,7 +11,7 @@ export function GET(request: NextRequest) {
     "q", "title", "location", "platform", "company", "workplace",
     "sort", "page", "role_group", "state", "us_state", "city",
     "us_city", "remote", "us_only", "active_only", "since",
-    "limit", "exclude_keys"
+    "limit", "exclude_keys", "exclude_companies", "distinct_company"
   ] as const;
 
   for (const key of paramKeys) {
@@ -79,3 +79,4 @@ export function GET(request: NextRequest) {
     data: formattedData
   });
 }
+

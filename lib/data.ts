@@ -35,6 +35,8 @@ export type Filters = {
   since?: string;
   limit?: string | number;
   exclude_keys?: string;
+  exclude_companies?: string;
+  distinct_company?: string | boolean;
 };
 
 export type Company = { company: string; company_key: string; platform: string; jobs: number };
@@ -151,6 +153,14 @@ export function where(filters: Filters) {
     }
   }
 
+  if (filters.exclude_companies) {
+    const excludedComps = filters.exclude_companies.split(",").map(c => c.trim().toLowerCase()).filter(Boolean).slice(0, 500);
+    if (excludedComps.length) {
+      clauses.push(`LOWER(j.company) NOT IN (${excludedComps.map(() => "?").join(",")})`);
+      values.push(...excludedComps);
+    }
+  }
+
   if (filters.saved !== undefined) {
     let keys: string[] = [];
     try {
@@ -173,7 +183,11 @@ export function getJobs(filters: Filters = {}): Results {
   if (!database) return { jobs: [], total: 0, page: 1, pages: 1, limit: limitVal };
 
   const { sql, values } = where(filters);
-  const total = Number(database.prepare(`SELECT COUNT(*) total FROM jobs j WHERE ${sql}`).get(...values)?.total || 0);
+  const isDistinctCompany = filters.distinct_company === "1" || filters.distinct_company === true || filters.distinct_company === "true";
+  const countTarget = isDistinctCompany ? "COUNT(DISTINCT j.company_key)" : "COUNT(*)";
+  const groupBy = isDistinctCompany ? "GROUP BY j.company_key" : "";
+
+  const total = Number(database.prepare(`SELECT ${countTarget} total FROM jobs j WHERE ${sql}`).get(...values)?.total || 0);
   const pages = Math.max(1, Math.ceil(total / limitVal));
   const requested = Number(filters.page || 1);
   const page = Math.min(pages, Math.max(1, Number.isFinite(requested) ? Math.floor(requested) : 1));
@@ -185,10 +199,10 @@ export function getJobs(filters: Filters = {}): Results {
     : "COALESCE(NULLIF(j.published_at,''),NULLIF(j.updated_at,''),'') DESC";
 
   const orderedIndex = filters.sort === "company" ? "jobs_company_title" : filters.sort === "title" ? "jobs_title" : "jobs_source_date";
-  const hint = sql === "j.active=1" ? `INDEXED BY ${orderedIndex}` : "";
+  const hint = sql === "j.active=1" && !isDistinctCompany ? `INDEXED BY ${orderedIndex}` : "";
 
   const jobs = database.prepare(
-    `SELECT ${columns} FROM jobs j WHERE j.rowid IN (SELECT j.rowid FROM jobs j ${hint} WHERE ${sql} ORDER BY ${sort},j.key LIMIT ? OFFSET ?) ORDER BY ${sort},j.key`
+    `SELECT ${columns} FROM jobs j WHERE j.rowid IN (SELECT j.rowid FROM jobs j ${hint} WHERE ${sql} ${groupBy} ORDER BY ${sort},j.key LIMIT ? OFFSET ?) ORDER BY ${sort},j.key`
   ).all(...values, limitVal, (page - 1) * limitVal).map(row => ({...row})) as unknown as Job[];
 
   return { jobs, total, page, pages, limit: limitVal };
