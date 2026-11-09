@@ -6,7 +6,7 @@ __pycache__/
 *.pyc
 data/
 outputs/
-companies/
+/companies/
 companies_previous_*/
 .companies_build_*/
 sources/

@@ -211,10 +211,12 @@ export function getJobs(filters: Filters = {}): Results {
 let cachedMetadata: { at: number; value: Metadata } | undefined;
 export function getMetadata(): Metadata {
   if (cachedMetadata && Date.now() - cachedMetadata.at < 60000) return cachedMetadata.value;
-  const metaPath = path.join(process.cwd(), "data", "metadata.json");
-  if (fs.existsSync(metaPath)) {
+  const metaPath = path.join(process.cwd(), "lib", "metadata.json");
+  const fallbackPath = path.join(process.cwd(), "data", "metadata.json");
+  const targetPath = fs.existsSync(metaPath) ? metaPath : fallbackPath;
+  if (fs.existsSync(targetPath)) {
     try {
-      const data = JSON.parse(fs.readFileSync(metaPath, "utf8")) as Metadata;
+      const data = JSON.parse(fs.readFileSync(targetPath, "utf8")) as Metadata;
       cachedMetadata = { at: Date.now(), value: data };
       return data;
     } catch {}

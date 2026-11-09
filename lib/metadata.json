@@ -1,0 +1,384 @@
+{
+  "role_groups": [
+    {
+      "name": "Business Operations",
+      "jobs": 52883
+    },
+    {
+      "name": "Healthcare and Nursing",
+      "jobs": 28815
+    },
+    {
+      "name": "Other Roles",
+      "jobs": 27719
+    },
+    {
+      "name": "Skilled Trades and Maintenance",
+      "jobs": 26181
+    },
+    {
+      "name": "Sales and Business Development",
+      "jobs": 25039
+    },
+    {
+      "name": "Hardware and Engineering",
+      "jobs": 24474
+    },
+    {
+      "name": "Retail and Store Management",
+      "jobs": 23821
+    },
+    {
+      "name": "Hospitality and Food Service",
+      "jobs": 18630
+    },
+    {
+      "name": "Therapy and Behavioral Health",
+      "jobs": 16076
+    },
+    {
+      "name": "Finance and Accounting",
+      "jobs": 13531
+    },
+    {
+      "name": "Software Engineering",
+      "jobs": 13496
+    },
+    {
+      "name": "Manufacturing and Quality",
+      "jobs": 13458
+    },
+    {
+      "name": "Data and AI",
+      "jobs": 9409
+    },
+    {
+      "name": "Education and Training",
+      "jobs": 8726
+    },
+    {
+      "name": "Projects and Programs",
+      "jobs": 7940
+    },
+    {
+      "name": "Supply Chain and Logistics",
+      "jobs": 7227
+    },
+    {
+      "name": "Marketing and Communications",
+      "jobs": 6802
+    },
+    {
+      "name": "Fitness and Wellness",
+      "jobs": 6695
+    },
+    {
+      "name": "Customer Success and Support",
+      "jobs": 6388
+    },
+    {
+      "name": "Drivers and Transportation",
+      "jobs": 5956
+    },
+    {
+      "name": "IT Cloud and Cybersecurity",
+      "jobs": 5844
+    },
+    {
+      "name": "Legal and Compliance",
+      "jobs": 5707
+    },
+    {
+      "name": "Administrative and Data Entry",
+      "jobs": 5238
+    },
+    {
+      "name": "HR and Recruiting",
+      "jobs": 4045
+    },
+    {
+      "name": "Design and Creative",
+      "jobs": 3548
+    },
+    {
+      "name": "Science and Research",
+      "jobs": 3181
+    },
+    {
+      "name": "Product Management",
+      "jobs": 3081
+    },
+    {
+      "name": "Real Estate and Property",
+      "jobs": 2519
+    },
+    {
+      "name": "Veterinary and Animal Care",
+      "jobs": 2346
+    },
+    {
+      "name": "Physical Security and Safety",
+      "jobs": 2297
+    },
+    {
+      "name": "General Applications",
+      "jobs": 1290
+    },
+    {
+      "name": "Executive Leadership",
+      "jobs": 325
+    }
+  ],
+  "states": [
+    {
+      "state": "CA",
+      "jobs": 44976
+    },
+    {
+      "state": "TX",
+      "jobs": 33318
+    },
+    {
+      "state": "NY",
+      "jobs": 28058
+    },
+    {
+      "state": "FL",
+      "jobs": 16032
+    },
+    {
+      "state": "PA",
+      "jobs": 12617
+    },
+    {
+      "state": "VA",
+      "jobs": 11919
+    },
+    {
+      "state": "IL",
+      "jobs": 11872
+    },
+    {
+      "state": "MA",
+      "jobs": 10697
+    },
+    {
+      "state": "OH",
+      "jobs": 10111
+    },
+    {
+      "state": "NC",
+      "jobs": 9243
+    },
+    {
+      "state": "GA",
+      "jobs": 9041
+    },
+    {
+      "state": "CO",
+      "jobs": 8522
+    },
+    {
+      "state": "WA",
+      "jobs": 8354
+    },
+    {
+      "state": "MD",
+      "jobs": 7687
+    },
+    {
+      "state": "AZ",
+      "jobs": 7381
+    },
+    {
+      "state": "MI",
+      "jobs": 7265
+    },
+    {
+      "state": "TN",
+      "jobs": 6653
+    },
+    {
+      "state": "WI",
+      "jobs": 6223
+    },
+    {
+      "state": "IN",
+      "jobs": 6205
+    },
+    {
+      "state": "MO",
+      "jobs": 5519
+    },
+    {
+      "state": "MN",
+      "jobs": 5324
+    },
+    {
+      "state": "SC",
+      "jobs": 4350
+    },
+    {
+      "state": "UT",
+      "jobs": 4168
+    },
+    {
+      "state": "OR",
+      "jobs": 4121
+    },
+    {
+      "state": "NJ",
+      "jobs": 4003
+    },
+    {
+      "state": "AL",
+      "jobs": 3856
+    },
+    {
+      "state": "LA",
+      "jobs": 3339
+    },
+    {
+      "state": "OK",
+      "jobs": 3175
+    },
+    {
+      "state": "KS",
+      "jobs": 3144
+    },
+    {
+      "state": "DC",
+      "jobs": 3130
+    },
+    {
+      "state": "IA",
+      "jobs": 2987
+    },
+    {
+      "state": "KY",
+      "jobs": 2927
+    },
+    {
+      "state": "NV",
+      "jobs": 2893
+    },
+    {
+      "state": "CT",
+      "jobs": 2879
+    },
+    {
+      "state": "AR",
+      "jobs": 2037
+    },
+    {
+      "state": "ID",
+      "jobs": 2024
+    },
+    {
+      "state": "NH",
+      "jobs": 1944
+    },
+    {
+      "state": "MS",
+      "jobs": 1898
+    },
+    {
+      "state": "NE",
+      "jobs": 1853
+    },
+    {
+      "state": "NM",
+      "jobs": 1836
+    },
+    {
+      "state": "ME",
+      "jobs": 1649
+    },
+    {
+      "state": "SD",
+      "jobs": 1205
+    },
+    {
+      "state": "MT",
+      "jobs": 1067
+    },
+    {
+      "state": "VT",
+      "jobs": 1007
+    },
+    {
+      "state": "RI",
+      "jobs": 969
+    },
+    {
+      "state": "ND",
+      "jobs": 961
+    },
+    {
+      "state": "WV",
+      "jobs": 813
+    },
+    {
+      "state": "HI",
+      "jobs": 752
+    },
+    {
+      "state": "DE",
+      "jobs": 736
+    },
+    {
+      "state": "AK",
+      "jobs": 677
+    },
+    {
+      "state": "WY",
+      "jobs": 447
+    }
+  ],
+  "platforms": [
+    {
+      "platform": "paylocity",
+      "jobs": 107547,
+      "companies": 7991
+    },
+    {
+      "platform": "workday",
+      "jobs": 105323,
+      "companies": 2149
+    },
+    {
+      "platform": "greenhouse",
+      "jobs": 93813,
+      "companies": 3431
+    },
+    {
+      "platform": "lever",
+      "jobs": 32090,
+      "companies": 1097
+    },
+    {
+      "platform": "ashby",
+      "jobs": 22063,
+      "companies": 1582
+    },
+    {
+      "platform": "bamboohr",
+      "jobs": 21797,
+      "companies": 3376
+    },
+    {
+      "platform": "smartrecruiters",
+      "jobs": 39,
+      "companies": 1
+    },
+    {
+      "platform": "breezy",
+      "jobs": 15,
+      "companies": 1
+    }
+  ],
+  "total_jobs": 382687,
+  "total_us_jobs": 382687,
+  "total_us_remote": 26133,
+  "checked_at": "2026-10-30T11:38:49Z"
+}

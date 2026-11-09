@@ -1,10 +1,21 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getJobs, type Filters } from "@/lib/data";
+import { getJobs, db, type Filters } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
-export function GET(request: NextRequest) {
+export async function GET(request: NextRequest) {
   const searchParams = request.nextUrl.searchParams;
+
+  if (!db()) {
+    const backend = process.env.ATLAS_BACKEND_URL || "https://job-atlas-supply.onrender.com";
+    try {
+      const res = await fetch(`${backend}/api/v1/jobs?${searchParams.toString()}`, { cache: "no-store" });
+      if (res.ok) {
+        return NextResponse.json(await res.json());
+      }
+    } catch {}
+  }
+
   const filters: Filters = {};
 
   const paramKeys = [

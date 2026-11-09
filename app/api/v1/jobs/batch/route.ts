@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getJobsBatch } from "@/lib/data";
+import { getJobsBatch, db } from "@/lib/data";
 
 export const dynamic = "force-dynamic";
 
@@ -7,6 +7,21 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const keys = Array.isArray(body?.keys) ? body.keys.filter((k: unknown) => typeof k === "string") : [];
+
+    if (!db()) {
+      const backend = process.env.ATLAS_BACKEND_URL || "https://job-atlas-supply.onrender.com";
+      try {
+        const res = await fetch(`${backend}/api/v1/jobs/batch`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ keys }),
+          cache: "no-store",
+        });
+        if (res.ok) {
+          return NextResponse.json(await res.json());
+        }
+      } catch {}
+    }
 
     if (!keys.length) {
       return NextResponse.json({
