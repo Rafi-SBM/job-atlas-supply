@@ -177,10 +177,67 @@ export function where(filters: Filters) {
   return { sql: clauses.join(" AND "), values };
 }
 
+let cachedSeedJobs: Job[] | undefined;
+function getSeedData(): Job[] {
+  if (cachedSeedJobs) return cachedSeedJobs;
+  const seedPath = path.join(process.cwd(), "lib", "seed_jobs.json");
+  if (fs.existsSync(seedPath)) {
+    try {
+      cachedSeedJobs = JSON.parse(fs.readFileSync(seedPath, "utf8"));
+      return cachedSeedJobs || [];
+    } catch {}
+  }
+  return [];
+}
+
 export function getJobs(filters: Filters = {}): Results {
   const database = db();
   const limitVal = Math.min(200, Math.max(1, Number(filters.limit || 25)));
-  if (!database) return { jobs: [], total: 0, page: 1, pages: 1, limit: limitVal };
+  if (!database) {
+    const all = getSeedData();
+    let filtered = all;
+    if (filters.role_group) {
+      filtered = filtered.filter(j => j.role_group === filters.role_group);
+    }
+    if (filters.title) {
+      const t = filters.title.toLowerCase();
+      filtered = filtered.filter(j => (j.title || "").toLowerCase().includes(t));
+    }
+    if (filters.q) {
+      const q = filters.q.toLowerCase();
+      filtered = filtered.filter(j => (j.title || "").toLowerCase().includes(q) || (j.company || "").toLowerCase().includes(q));
+    }
+    if (filters.company) {
+      const c = filters.company.toLowerCase();
+      filtered = filtered.filter(j => (j.company || "").toLowerCase().includes(c));
+    }
+    if (filters.workplace) {
+      filtered = filtered.filter(j => j.workplace === filters.workplace);
+    }
+    if (filters.state || filters.us_state) {
+      const s = (filters.state || filters.us_state)?.toUpperCase();
+      filtered = filtered.filter(j => j.us_state === s);
+    }
+    if (filters.exclude_companies) {
+      const exc = new Set(filters.exclude_companies.toLowerCase().split(",").map(c => c.trim()));
+      filtered = filtered.filter(j => !exc.has((j.company || "").toLowerCase()));
+    }
+    const isDistinctCompany = filters.distinct_company === "1" || filters.distinct_company === true || filters.distinct_company === "true";
+    if (isDistinctCompany) {
+      const seen = new Set<string>();
+      filtered = filtered.filter(j => {
+        if (seen.has(j.company_key)) return false;
+        seen.add(j.company_key);
+        return true;
+      });
+    }
+    const total = filtered.length;
+    const pages = Math.max(1, Math.ceil(total / limitVal));
+    const requested = Number(filters.page || 1);
+    const page = Math.min(pages, Math.max(1, Number.isFinite(requested) ? Math.floor(requested) : 1));
+    const jobs = filtered.slice((page - 1) * limitVal, page * limitVal);
+    return { jobs, total, page, pages, limit: limitVal };
+  }
 
   const { sql, values } = where(filters);
   const isDistinctCompany = filters.distinct_company === "1" || filters.distinct_company === true || filters.distinct_company === "true";
@@ -281,7 +338,11 @@ export function getStats(): Stats {
 
 export function getJobsBatch(keys: string[]): Job[] {
   const database = db();
-  if (!database || !keys.length) return [];
+  if (!database) {
+    const set = new Set(keys);
+    return getSeedData().filter(j => set.has(j.key));
+  }
+  if (!keys.length) return [];
   const safeKeys = keys.slice(0, 500);
   const placeholders = safeKeys.map(() => "?").join(",");
   return database.prepare(
@@ -291,12 +352,30 @@ export function getJobsBatch(keys: string[]): Job[] {
 
 export function getCompanies(q = "", limit = 100): Company[] {
   const database = db();
-  if (!database) return [];
+  if (!database) {
+    const all = getSeedData();
+    const map = new Map<string, { company: string; company_key: string; platform: string; jobs: number }>();
+    const query = q.toLowerCase();
+    for (const j of all) {
+      if (query && !(j.company || "").toLowerCase().includes(query)) continue;
+      const existing = map.get(j.company_key);
+      if (existing) {
+        existing.jobs += 1;
+      } else {
+        map.set(j.company_key, { company: j.company, company_key: j.company_key, platform: j.platform, jobs: 1 });
+      }
+    }
+    return Array.from(map.values()).sort((a, b) => b.jobs - a.jobs).slice(0, limit);
+  }
   return database.prepare("SELECT company,company_key,platform,COUNT(*) jobs FROM jobs WHERE active=1 AND company LIKE ? ESCAPE '\\' GROUP BY company_key ORDER BY jobs DESC,company LIMIT ?").all(`%${q.slice(0, 100).replace(/[\\%_]/g, "\\$&")}%`, limit).map(row => ({...row})) as Company[];
 }
 
 export function getJob(key: string): Job | null {
-  return db()?.prepare("SELECT * FROM jobs WHERE key=? AND active=1").get(key) as Job | undefined || null;
+  const database = db();
+  if (database) {
+    return database.prepare("SELECT * FROM jobs WHERE key=? AND active=1").get(key) as Job | undefined || null;
+  }
+  return getSeedData().find(j => j.key === key) || null;
 }
 
 export function exportRows(filters: Filters) {
